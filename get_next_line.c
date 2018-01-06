@@ -31,8 +31,7 @@ char *paste_strings(char *tab, int size)
 
 char *read_mo(int fd, char *buff, int *err, int *size)
 {
-	if (size != 0)
-		free(buff);
+	free(buff);
 	buff = malloc(READ_SIZE + 1);
 	if (buff) {
 		*err = read(fd, buff, READ_SIZE);
