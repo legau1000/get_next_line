@@ -10,10 +10,6 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-static int where_i_am = 0;
-static char *buff = NULL;
-static int nb_byte_read = -2;
-
 char *paste_strings(char *tab, int size)
 {
 	int i = 0;
@@ -35,6 +31,8 @@ char *read_mo(int fd, char *buff, int *err, int *size)
 	buff = malloc(READ_SIZE + 1);
 	if (buff) {
 		*err = read(fd, buff, READ_SIZE);
+		if (*err == -1)
+			return (NULL);
 		*size = *size + READ_SIZE;
 		buff[*err] = '\0';
 		return (buff);
@@ -45,7 +43,7 @@ char *read_mo(int fd, char *buff, int *err, int *size)
 char *good_or_no(int *nb_byte_read, char *tab, int *index_tab)
 {
 	tab[*index_tab] = '\0';
-	if (*nb_byte_read == 0) {
+	if (*nb_byte_read <= 0) {
 		free(tab);
 		return (NULL);
 	}
@@ -60,7 +58,7 @@ char *get_next_line(int fd)
 
 	if (nb_byte_read == -2)
 		buff = read_mo(fd, buff, &nb_byte_read, &index_nb_read);
-	while (nb_byte_read != 0 && buff[where_i_am] != '\n') {
+	while (buff && nb_byte_read != 0 && buff[where_i_am] != '\n') {
 		if (where_i_am < nb_byte_read) {
 			tab[index_tab] = buff[where_i_am];
 			index_tab++;
