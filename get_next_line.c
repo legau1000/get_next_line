@@ -29,7 +29,7 @@ char *read_mo(int fd, char *buff, int *err, int *size)
 {
 	free(buff);
 	buff = malloc(READ_SIZE + 1);
-	if (READ_SIZE >= 0 && buff) {
+	if (READ_SIZE > 0 && buff) {
 		*err = read(fd, buff, READ_SIZE);
 		if (*err == -1)
 			return (NULL);
