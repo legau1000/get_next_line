@@ -36,14 +36,16 @@ char *read_mo(int fd, char *buff, int *err, int *size)
 		*size = *size + READ_SIZE;
 		buff[*err] = '\0';
 		return (buff);
-	} else
+	} else {
+		printf("%d\n", *err);
 		return (NULL);
+	}
 }
 
 char *good_or_no(int *nb_byte_read, char *tab, int *index_tab)
 {
 	tab[*index_tab] = '\0';
-	if (*nb_byte_read <= 0) {
+	if (*nb_byte_read <= 0 && !tab[0]) {
 		free(tab);
 		return (NULL);
 	}
@@ -73,7 +75,7 @@ char *get_next_line(int fd)
 			return (NULL);
 	}
 	while (buff && nb_byte_read != 0 && buff[where_i_am] != '\n') {
-		if (where_i_am < nb_byte_read) {
+		if (where_i_am < nb_byte_read && buff[where_i_am]) {
 			tab = adding_value_on_tab(tab, buff, &index_tab, &where_i_am);
 		} else {
 			buff = read_mo(fd, buff, &nb_byte_read, &index_nb_read);
