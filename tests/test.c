@@ -67,5 +67,5 @@ Test(Just_n, one_n, .init = redirect_all_std)
 
 	cr_assert(line[0] == '\0');
 	line = get_next_line(fd);
-	cr_assert(line == NULL);	
+	cr_assert(line == NULL);
 }
