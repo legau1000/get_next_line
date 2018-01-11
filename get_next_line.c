@@ -36,10 +36,8 @@ char *read_mo(int fd, char *buff, int *err, int *size)
 		*size = *size + READ_SIZE;
 		buff[*err] = '\0';
 		return (buff);
-	} else {
-		printf("%d\n", *err);
+	} else
 		return (NULL);
-	}
 }
 
 char *good_or_no(int *nb_byte_read, char *tab, int *index_tab)
@@ -52,7 +50,7 @@ char *good_or_no(int *nb_byte_read, char *tab, int *index_tab)
 	return (tab);
 }
 
-char *adding_value_on_tab(char *tab, char *buff, int *index_tab, int *where)
+char *adding_value(char *tab, char *buff, int *index_tab, int *where)
 {
 	tab[*index_tab] = buff[*where];
 	*index_tab = *index_tab + 1;
@@ -76,7 +74,7 @@ char *get_next_line(int fd)
 	}
 	while (buff && nb_byte_read != 0 && buff[where_i_am] != '\n') {
 		if (where_i_am < nb_byte_read && buff[where_i_am]) {
-			tab = adding_value_on_tab(tab, buff, &index_tab, &where_i_am);
+			tab = adding_value(tab, buff, &index_tab, &where_i_am);
 		} else {
 			buff = read_mo(fd, buff, &nb_byte_read, &index_nb_read);
 			tab = paste_strings(tab, index_nb_read);
