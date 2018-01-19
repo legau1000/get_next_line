@@ -17,7 +17,8 @@ NAME	=	units_tests
 .SILENT:
 
 $(NAME):	$(OBJ)
-	gcc -o $(NAME) $(OBJ) -lcriterion
+	gcc -o $(NAME) $(OBJ) -lcriterion --coverage
+	mv units_tests ../
 		@echo Compilation tests faite!
 
 all:	$(NAME)
@@ -27,7 +28,7 @@ clean:
 		@echo Clean fait!
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f ../$(NAME)
 		@echo Fclean fait!
 
 re:	fclean all

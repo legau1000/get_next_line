@@ -23,8 +23,8 @@ void redirect_all_std(void)
 
 Test(Next_line, first_line, .init = redirect_all_std)
 {
-	char *test = "Bonsoir";
-	int fd = open("../test", O_RDONLY);
+	char *test = "/*";
+	int fd = open("get_next_line.c", O_RDONLY);
 	char *line = get_next_line(fd);
 	int i = 0;
 
@@ -36,8 +36,8 @@ Test(Next_line, first_line, .init = redirect_all_std)
 
 Test(Next_line, Second_line, .init = redirect_all_std)
 {
-	char *test = "boby";
-	int fd = open("../test", O_RDONLY);
+	char *test = "** get_nextline.c";
+	int fd = open("get_next_line.c", O_RDONLY);
 	char *line = NULL;
 	int i = 0;
 
@@ -61,7 +61,7 @@ Test(Bad_fd, Bad_fd, .init = redirect_all_std)
 
 Test(Just_n, one_n, .init = redirect_all_std)
 {
-	int fd = open("bidon", O_RDONLY);
+	int fd = open("tests/bidon", O_RDONLY);
 	char *line = get_next_line(fd);
 	int i = 0;
 
