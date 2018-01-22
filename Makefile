@@ -15,7 +15,7 @@ NAME	=	a.aout
 
 $(NAME):
 
-test_run:
+tests_run:
 	make -C tests/ re
 	./units_tests
 	make -C tests/ fclean
