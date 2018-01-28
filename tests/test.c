@@ -23,15 +23,11 @@ void redirect_all_std(void)
 
 Test(Next_line, first_line, .init = redirect_all_std)
 {
-	char *test = "/*";
 	int fd = open("get_next_line.c", O_RDONLY);
 	char *line = get_next_line(fd);
-	int i = 0;
 
-	while (test[i]) {
-		cr_assert(line[i] == test[i]);
-		i++;
-	}
+	cr_assert(line[0] == '/');
+	cr_assert(line[1] == '*');
 }
 
 Test(Next_line, Second_line, .init = redirect_all_std)

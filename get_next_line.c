@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-char *paste_strings(char *tab, int size)
+char *paste_strings(char *tab, int size, int *index)
 {
 	int i = 0;
 	int j = 0;
@@ -22,6 +22,7 @@ char *paste_strings(char *tab, int size)
 	}
 	free(tab);
 	tab_global[size + READ_SIZE - 1] = '\0';
+	*index = 0;
 	return (tab_global);
 }
 
@@ -40,8 +41,9 @@ char *read_mo(int fd, char *buff, int *err, int *size)
 		return (NULL);
 }
 
-char *good_or_no(int *nb_byte_read, char *tab, int *index_tab)
+char *good_or_no(int *nb_byte_read, char *tab, int *index_tab , int *where)
 {
+	*where = *where + 1;
 	tab[*index_tab] = '\0';
 	if (*nb_byte_read <= 0 && !tab[0]) {
 		free(tab);
@@ -68,8 +70,7 @@ char *get_next_line(int fd)
 	static int nb_byte_read = -2;
 
 	if (nb_byte_read == -2) {
-		buff = read_mo(fd, buff, &nb_byte_read, &index_nb_read);
-		if (!buff)
+		if (!(buff = read_mo(fd, buff, &nb_byte_read, &index_nb_read)))
 			return (NULL);
 	}
 	while (buff && nb_byte_read != 0 && buff[where_i_am] != '\n') {
@@ -77,10 +78,8 @@ char *get_next_line(int fd)
 			tab = adding_value(tab, buff, &index_tab, &where_i_am);
 		} else {
 			buff = read_mo(fd, buff, &nb_byte_read, &index_nb_read);
-			tab = paste_strings(tab, index_nb_read);
-			where_i_am = 0;
+			tab = paste_strings(tab, index_nb_read, &where_i_am);
 		}
 	}
-	where_i_am++;
-	return (good_or_no(&nb_byte_read, tab, &index_tab));
+	return (good_or_no(&nb_byte_read, tab, &index_tab, &where_i_am));
 }
